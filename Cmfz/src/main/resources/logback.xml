@@ -1,0 +1,22 @@
+<?xmlversion = "1.0" encoding = "UTF-8"?>
+<!--不分级别同步文件日志输出配置-->
+<configuration>
+    <!--设置输出的格式-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                %d-%msg%n<!--根据需求配置规则-->
+            </pattern>
+        </layout>
+    </appender>
+    <!--配置日志文件-->
+    <root level="error">
+    <appender-ref ref="stdout"/>
+
+    </root>
+        <!--配置子日志-->
+    <logger name="com.baizhi.serviceimple" level="debug"></logger>
+    <logger name="com.baizhi.controller" level="info"></logger>
+
+
+</configuration>

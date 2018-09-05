@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.MenuItemDao">
+    <resultMap id="selectmenu" type="MenuItem">
+        <id property="id" column="pid"></id>
+        <result property="title" column="ptitle"></result>
+        <result property="href" column="phref"></result>
+        <result property="iconCls" column="picon"></result>
+        <collection property="menuItems" ofType="MenuItem">
+            <id property="id" column="sid"></id>
+            <result property="title" column="stitle"></result>
+            <result property="href" column="shref"></result>
+            <result property="iconCls" column="sicon"></result>
+        </collection>
+
+    </resultMap>
+    <select id="queryAll" resultMap="selectmenu">
+        select t.id pid,t.title ptitle,t.href phref,t.iconCls picon,tt.id sid,tt.title stitle,tt.href shref,tt.iconCls sicon from t_menu t
+          inner JOIN t_menu tt
+            on t.id=tt.parentId
+            order by pid
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+

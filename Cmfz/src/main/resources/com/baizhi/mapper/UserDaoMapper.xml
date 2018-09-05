@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDao">
+    <resultMap id="result" type="User">
+        <id property="id" column="uid"></id>
+        <result property="name" column="uname"></result>
+        <result property="password" column="upwd"></result>
+        <result property="salt" column="usalt"></result>
+        <result property="registerDate" column="registerDate"></result>
+        <result property="photoImg" column="uimg"></result>
+        <result property="dharmaName" column="udharmaName"></result>
+        <result property="sign" column="usign"></result>
+        <result property="phoneNum" column="uphoneNum"></result>
+        <result property="sex" column="usex"></result>
+        <result property="province" column="province"></result>
+        <result property="status" column="ustatus"></result>
+        <result property="city" column="city"></result>
+        <association property="gruru" javaType="Gruru">
+            <id property="id" column="gid"></id>
+            <result property="name" column="gname"></result>
+            <result property="dharmaName" column="gdharmaName"></result>
+            <result property="status" column="gstatus"></result>
+            <result property="photoImg" column="gimg"></result>
+            <result property="phoneNum" column="gphoneNum"></result>
+        </association>
+    </resultMap>
+    <sql id="sql1">
+        select u.id uid,u.name uname,u.password upwd,u.salt usalt,u.registerDate registerDate,
+        u.photoImg uimg,u.dharmaName udharmaName,u.sign usign,u.phoneNum uphoneNum,
+        u.sex usex,u.province province,u.status ustatus,u.city city,g.id gid,g.name gname,
+        g.dharmaName gdharmaName,g.status gstatus,g.photoImg gimg,g.phoneNum gphoneNum
+          from t_user u
+          LEFT JOIN t_gruru g
+        on u.guruid=g.id
+    </sql>
+    <select id="count" resultType="int">
+        select count(*) from t_user
+    </select>
+    <select id="queryAll" resultMap="result">
+      <include refid="sql1"></include>
+    </select>
+    <select id="queryByPage" resultMap="result">
+        <include refid="sql1"></include>
+        limit #{start},#{rows}
+    </select>
+    <select id="queryById" resultMap="result">
+        <include refid="sql1"></include>
+        where u.id=#{id}
+    </select>
+    <update id="updateStatus">
+      update t_user set status =#{status} where id=#{id}
+    </update>
+
+    <insert id="addList" >
+      insert into t_user values
+      <foreach collection="users" item="user" separator="," open="(" close=")">
+        #{user.id},#{user.name},#{user.password},#{user.salt},#{user.photoImg},#{user.dharmaName},#{user.sex},#{user.province},
+        #{user.city},#{user.sign},#{user.phoneNum},#{user.status},#{user.registerDate},#{user.gruru.id}
+      </foreach>
+
+    </insert>
+</mapper>
+
+
+
+
+
+
+
