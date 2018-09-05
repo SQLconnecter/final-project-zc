@@ -40,4 +40,5 @@ public interface UserDao {
      *              批量插入数据库
      */
     public void addList(List<User> users);
+    public void add(User user);
 }

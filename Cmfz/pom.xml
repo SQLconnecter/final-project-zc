@@ -23,6 +23,15 @@
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>1.5.8.RELEASE</version>
   </parent>
+  <repositories>
+    <repository>
+      <id>goeasy</id>
+      <name>goeasy</name>
+      <url>
+        http://maven.goeasy.io/content/repositories/releases
+      </url>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -33,6 +42,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <!--添加对goeasy的依赖-->
+    <dependency>
+      <groupId>io.goeasy</groupId>
+      <artifactId>goeasy-sdk</artifactId>
+        <version>0.3.8</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -57,6 +72,13 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.38</version>
+    </dependency>
+    <!--添加对gson的支持-->
+    <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.3.1</version>
     </dependency>
     <dependency>
       <groupId>org.mybatis</groupId>

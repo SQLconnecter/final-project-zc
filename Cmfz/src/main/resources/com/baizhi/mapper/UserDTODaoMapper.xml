@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDTODao">
+    <resultMap id="select" type="UserDTO">
+        <id property="name" column="province"></id>
+        <result property="value" column="values"></result>
+    </resultMap>
+    <select id="queryLastWeek" parameterType="int" resultType="int">
+        select COUNT(*)
+        FROM
+        t_user
+        where DATEDIFF(NOW(),registerDate)&lt;#{day}
+    </select>
+    <select id="queryMan" resultMap="select">
+       select province,count(*) from t_user where sex= 1 group BY  province
+    </select>
+    <select id="queryWoman" resultMap="select">
+        select province,count(*) from t_user where sex= 0 group BY  province
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+

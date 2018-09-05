@@ -1,22 +1,30 @@
 ﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+
     <script type="text/javascript" src="../js/echarts.js"></script>
     <script type="text/javascript" src="../js/china.js"></script>
-</head>
-<body class="easyui-layout">
+
+
+    </script>
+
+
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
     <div id="main" style="width: 600px;height:400px;"></div>
     <script type="text/javascript">
+        /*对消息的订阅*/
+        var goEasy = new GoEasy({
+            appkey: "BS-bce3079722ee4d8898cbf9af6a995754"
+        });
+        goEasy.subscribe({
+            channel: "man",
+            onMessage: function (message) {
+                alert("Channel:" + message.channel + " content:" + message.content);
+            }
+        });
+
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
-
-        function randomData() {
-            return Math.round(Math.random() * 1000);
-        }
-
         option = {
             title: {
                 text: '持名法州APP用户分布图',
@@ -87,29 +95,21 @@
         myChart.setOption(option);
 
         $(function () {
-            $.post("/cmfzms_gaozhy/statistics/distribution1", function (data) {
-                console.log(data);
+            $.post("${pageContext.request.contextPath}/user/showapp.do", function (data) {
                 myChart.setOption({
                     series: [{
                         // 根据名字对应到相应的系列
                         name: '男',
-                        data: data
-                    }]
-                });
-            }, "json");
-
-            $.post("/cmfzms_gaozhy/statistics/distribution2", function (data) {
-                console.log(data);
-                myChart.setOption({
-                    series: [{
+                        data: data.man
+                    },
+                    {
                         // 根据名字对应到相应的系列
                         name: '女',
-                        data: data
+                        data: data.woman
                     }]
                 });
-            }, "json");
+            }, "json")
+
         });
     </script>
 
-</body>
-</html>

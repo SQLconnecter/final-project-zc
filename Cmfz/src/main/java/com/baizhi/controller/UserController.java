@@ -1,11 +1,11 @@
 package com.baizhi.controller;
 
 import com.baizhi.entity.User;
+import com.baizhi.entity.UserDTO;
+import com.baizhi.service.UserDTOService;
 import com.baizhi.service.UserService;
 import com.baizhi.util.IPUtils;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +20,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
-    private Logger logger = LoggerFactory.getLogger(UserController.class);
+    @Autowired
+    private UserDTOService userDTOService;
     @RequestMapping("/model.do")
     //进行模板的下载
     public void download(HttpSession session , HttpServletResponse response,HttpServletRequest request){
@@ -36,7 +38,6 @@ public class UserController {
         //content
 
         String ip = IPUtils.getIPAddress(request);
-        logger.info("用户进行了下载：ip="+ip);
         response.setHeader("content-disposition","attachment;filename=model.xls");
         try {
             IOUtils.copy(new FileInputStream(realPath),response.getOutputStream());
@@ -82,6 +83,28 @@ public class UserController {
         return user;
     }
     //展示最近一周，最近两周，最近三周，最近一月用户注册的数量//做数据的实时变化
-    //展示不同省份用户的男女用户
+    //前台一定是通过使用ajax发送的请求的
+    @RequestMapping("/showusers.do")
+    @ResponseBody
+    public Map<String,Object> showUsers(){
+        Map<String,Object> map = new HashMap<>();
+        List<UserDTO> userDTOS = userDTOService.showDto(3);
+        List<String> names=userDTOS.stream().map(t->t.getName()).collect(Collectors.toList());
+        List<Integer> values = userDTOS.stream().map(t -> t.getValue()).collect(Collectors.toList());
+        map.put("names",names);
+        map.put("values",values);
+        return map;
+    }
+    //展示不同省份的男女用户
+    @RequestMapping("/showapp.do")
+    @ResponseBody
+    public Map<String,Object> showApp(){
+        Map<String,Object> map = new HashMap<>();
+        List<UserDTO> manDTOS = userDTOService.showMan();
+        List<UserDTO> womanDTOS = userDTOService.showWoman();
+        map.put("man",manDTOS);
+        map.put("woman",womanDTOS);
+        return map;
+    }
     //
 }

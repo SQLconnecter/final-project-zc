@@ -59,6 +59,10 @@
       </foreach>
 
     </insert>
+    <insert id="add">
+      insert into t_user VALUES (#{user.id},#{user.name},#{user.password},#{user.salt},#{user.photoImg},#{user.dharmaName},#{user.sex},#{user.province},
+        #{user.city},#{user.sign},#{user.phoneNum},#{user.status},#{user.registerDate},#{user.gruru.id});
+    </insert>
 </mapper>
 
 
