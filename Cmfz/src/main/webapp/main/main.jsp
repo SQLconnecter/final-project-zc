@@ -9,6 +9,21 @@
     <link rel="stylesheet" type="text/css" href="../themes/IconExtension.css">
     <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="../themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/index_1000.css">
+    <link rel="stylesheet" type="text/css" href="../css/index_1000.css">
+    <link rel="stylesheet" type="text/css" href="../css/jquery.gritter.css">
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.easyui.mobile.js"></script>
+    <script type="text/javascript" src="../js/jquery.gritter.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.i18n.properties.js"></script>
+    <script type="text/javascript" src="../js/jquery.rotate.min.js"></script>
+    <script type="text/javascript" src="../js/phone.js"></script>
+    <script type="text/javascript" src="../js/spin.min.js"></script>
+
     <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../js/easyui-lang-zh_CN.js"></script>

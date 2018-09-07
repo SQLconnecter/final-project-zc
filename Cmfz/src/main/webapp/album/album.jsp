@@ -19,7 +19,6 @@
                         width: 400,
                         height: 200,
                         closed: false,
-                        href: "${pageContext.request.contextPath}/album/album.do?albumid="+select.id,
                         cache: false,
                         modal: true,
                         buttons:[
@@ -27,11 +26,33 @@
                             text:'关闭',
                             handler:function(){
                                 /*关闭对话框*/
+                                $('#showbum').empty();
                                 $('#dalbum').dialog("close");
-
-
                             }
                         }],
+                        onOpen:function(){
+                            $.ajax({
+                                url:"${pageContext.request.contextPath}/album/album.do?albumid="+select.id,
+                                data:"",
+                                dataType: "json",
+                                type:"POST",
+                                success:function(result){
+
+                               var section= '<table><tr>' +
+                                    '<td rowspan=2 style="border:0"><img src="${pageContext.request.contextPath}' + result.coverImg + '" style="height:50px;"></td>' +
+                                    '<td style="border:0">' +
+                                    '<p>上线时间: ' +new Date(result.publishDate).toLocaleString() + '</p>' +
+                                    '<p>状态: ' + result.status + '</p>' +
+                                    '<p>评分: ' + result.score + '</p>' +
+                                    '<p>作者: ' + result.author + '</p>' +
+                                    '<p>集数: ' + result.children.length + '</p>' +
+                                    '</td>' +
+                                    '</tr></table>';
+                                    $("#showbum").append(section);
+                                }
+                            });
+                        }
+
                     });
 
                 }else{
@@ -53,7 +74,7 @@
                         text:'确定',
                         handler:function(){
                             $.messager.progress();
-                            $("#addAlbumForm").form("submit", {
+                            $("#addCForm").form("submit", {
                                 url: "${pageContext.request.contextPath}/album/newalb.do",
                                 onSubmit: function(){
                                     var isValid = $(this).form('validate');

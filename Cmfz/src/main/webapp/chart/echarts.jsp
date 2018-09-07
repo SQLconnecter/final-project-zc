@@ -6,7 +6,6 @@
     <script type="text/javascript" src="../js/china.js"></script>
 
 
-    </script>
 
 
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
