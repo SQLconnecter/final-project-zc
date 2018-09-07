@@ -7,11 +7,6 @@ import java.util.List;
 
 public interface AlbumService {
     /**
-     * @return 展示所有的专辑的信息
-     */
-    public List<Album> showAlbums();
-
-    /**
      * @param id 专辑的id
      *
      * @return  根据id查询到的专辑的信息
@@ -47,7 +42,7 @@ public interface AlbumService {
     /**
      * @return 统计记录的条数
      */
-    public int countAll();
+    public Integer countAll();
 
     /**
      * @param page 当前页面的页码
@@ -55,4 +50,5 @@ public interface AlbumService {
      * @return 根据分页信息查询的记录
      */
     public List<Album> queryByPage(int page,int rows);
+    public List<Album> queryAll();
 }

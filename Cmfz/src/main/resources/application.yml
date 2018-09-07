@@ -23,8 +23,7 @@ spring:
       max-request-size: 500MB
       max-file-size: 500MB
 
-  aop:
-    proxy-target-class: false
+
   profiles:
     active: test
 mybatis:

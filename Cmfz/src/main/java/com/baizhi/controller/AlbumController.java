@@ -7,8 +7,6 @@ import it.sauronsoftware.jave.Encoder;
 import it.sauronsoftware.jave.MultimediaInfo;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,19 +27,7 @@ import java.util.*;
 public class AlbumController {
     @Autowired
     private AlbumService albumService;
-    private Logger logger = LoggerFactory.getLogger(AlbumController.class);
-    @RequestMapping("/all.do")
-    public Map<String,Object> showAll(Integer page,Integer rows){
-        Map<String,Object> map =new HashMap<>();
-        Integer i = albumService.countAll();
-        List<Album> albums = albumService.queryByPage(page, rows);
-        if(albums==null){
-            return null;
-        }
-        map.put("total",i);
-        map.put("rows",albums);
-        return map;
-    }
+
     @RequestMapping("/album.do")
     public Album showAlbum(Integer albumid){
         Album album = albumService.showAlbumById(albumid);
@@ -72,7 +58,6 @@ public class AlbumController {
             try {
                 img.transferTo(new File(uploadFilePath,newFileName));
                 /*------------------------------------------------------------------=---*/
-                logger.debug("新文件上传成功，文件名为："+newFileName+"----------目标地址为："+uploadFilePath);
                 /*------------------------------------------------------------------=---*/
                 Album album = new Album();
                 album.setTitle(title);
@@ -84,11 +69,10 @@ public class AlbumController {
                 album.setBrife(brife);
                 try {
                     albumService.newAlbum(album);
-                    logger.debug("新专辑信息入库成功，文件名为："+newFileName+"----------目标地址为："+uploadFilePath);
+
                     return album;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    logger.error("新专辑的信息入库出现错误，错误文件名为："+newFileName+"----------目标地址为："+uploadFilePath);
                     return null;
                 }
             } catch (IOException e) {
@@ -138,7 +122,7 @@ public class AlbumController {
                 min=s%3600/60;
                 ss=s%3600%60;
                 /*------------------------------------------------------------------=---*/
-                logger.debug("新文件上传成功，文件名为："+newFileName+"----------目标地址为："+uploadFilePath);
+
                 /*------------------------------------------------------------------=---*/
                 Chapter chapter = new Chapter();
                 chapter.setTitle(title);
@@ -149,11 +133,9 @@ public class AlbumController {
                 chapter.setDuration(h+":"+min+":"+ss);
                 try {
                     albumService.newChapter(albumid,chapter);
-                    logger.debug("新章节信息入库成功，文件名为："+newFileName+"----------目标地址为："+uploadFilePath);
                     return chapter;
                 } catch (Exception e){
                     e.printStackTrace();
-                    logger.error("新章节的信息入库出现错误，错误文件名为："+newFileName+"----------目标地址为："+uploadFilePath);
                     return null;
                 }
 
@@ -168,7 +150,7 @@ public class AlbumController {
     }
 
     //下载
-    @RequestMapping("/download")
+    @RequestMapping("/download.do")
     public void download(HttpSession session, HttpServletRequest request, HttpServletResponse response,String path){
         String realPath = session.getServletContext().getRealPath("/");
         String[] strs =path.split("/");
@@ -182,5 +164,25 @@ public class AlbumController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @RequestMapping("/allpage.do")
+    public Map<String,Object> showPage(Integer page,Integer rows){
+        HashMap<String, Object> map = new HashMap<>();
+        Integer total = albumService.countAll();
+        List<Album> albums  = albumService.queryByPage(page, rows);
+        map.put("total",total);
+        map.put("rows",albums);
+        return map;
+
+    }
+    @RequestMapping("/all.do")
+    public Map<String,Object> showAll(Integer page,Integer rows){
+        HashMap<String, Object> map = new HashMap<>();
+        Integer total = albumService.countAll();
+        List<Album> albums  = albumService.queryAll();
+        map.put("total",total);
+        map.put("rows",albums);
+        return map;
+
     }
 }

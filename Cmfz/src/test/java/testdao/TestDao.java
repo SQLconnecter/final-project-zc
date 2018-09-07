@@ -1,13 +1,7 @@
 package testdao;
 
-import com.baizhi.dao.AlbumDao;
-import com.baizhi.dao.MenuItemDao;
-import com.baizhi.dao.UserDTODao;
-import com.baizhi.dao.UserDao;
-import com.baizhi.entity.Album;
-import com.baizhi.entity.BannerImg;
-import com.baizhi.entity.MenuItem;
-import com.baizhi.entity.User;
+import com.baizhi.dao.*;
+import com.baizhi.entity.*;
 import com.baizhi.service.BannerImgService;
 import io.goeasy.GoEasy;
 import org.junit.Test;
@@ -27,6 +21,8 @@ public class TestDao extends BeanTest{
     private UserDao userDao;
     @Autowired
     private UserDTODao userDTODao;
+    @Autowired
+    private LogDao logDao;
     @Test
     public void test(){
         List<MenuItem> menuItems = menuItemDao.queryAll();
@@ -104,6 +100,11 @@ public class TestDao extends BeanTest{
         GoEasy goEasy = new GoEasy("http://rest-hangzhou.goeasy.io", "BC-035655ba5ddf4a3eb2e3669879a0bf8f");
 
         goEasy.publish("man", "Hello, GoEasy!");
+    }
+    @Test
+    public void test10(){
+        List<Log> logs = logDao.queryAll();
+        System.out.println(logs.size());
     }
 
 }

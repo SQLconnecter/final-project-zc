@@ -1,5 +1,6 @@
 package com.baizhi.serviceimple;
 
+import com.baizhi.aspect.LogAnnotation;
 import com.baizhi.dao.BannerImgDao;
 import com.baizhi.entity.BannerImg;
 import com.baizhi.service.BannerImgService;
@@ -25,16 +26,19 @@ public class BannerImgImple implements BannerImgService {
     }
 
     @Override
+    @LogAnnotation(name = "修改数据状态")
     public void change(int id, boolean status) {
         bannerImgDao.update(id,status);
     }
 
     @Override
+    @LogAnnotation(name = "删除数据")
     public void drop(int id) {
         bannerImgDao.delete(id);
     }
 
     @Override
+    @LogAnnotation( name = "添加图片")
     public void newImg(BannerImg bannerImg) {
         bannerImgDao.add(bannerImg);
     }

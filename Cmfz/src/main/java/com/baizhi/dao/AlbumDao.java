@@ -40,4 +40,17 @@ public interface AlbumDao {
      * @return 返回需要下载的章节的信息
      */
     public Chapter queryByChapterId(@Param("id") String id);
+
+    /**
+     * @param start 开始下标
+     * @param limit 每页展示的数量
+     * @return 根据分页信息查询到的结果
+     */
+    public List<Album> queryByPage(@Param("start") int start,@Param("limit") int limit);
+
+    /**
+
+     * @return 统计数量
+     */
+    public int count();
 }

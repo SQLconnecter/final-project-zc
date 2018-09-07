@@ -1,6 +1,8 @@
 package testservice;
 
+import com.baizhi.entity.Album;
 import com.baizhi.entity.UserDTO;
+import com.baizhi.service.AlbumService;
 import com.baizhi.service.BannerImgService;
 import com.baizhi.service.UserDTOService;
 import org.junit.Test;
@@ -13,6 +15,8 @@ public class TestService extends BeanTest {
     private BannerImgService bannerImgService;
     @Autowired
     private UserDTOService userDTOService;
+    @Autowired
+    private AlbumService albumService;
     @Test
     public void test(){
         try {
@@ -25,5 +29,10 @@ public class TestService extends BeanTest {
     public void test1(){
         List<UserDTO> userDTOS = userDTOService.showDto(3);
         userDTOS.forEach(System.out::println);
+    }
+    @Test
+    public void test2(){
+        List<Album> albums = albumService.queryByPage(1, 5);
+
     }
 }

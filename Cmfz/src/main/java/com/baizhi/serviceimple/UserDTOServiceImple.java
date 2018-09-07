@@ -29,12 +29,14 @@ public class UserDTOServiceImple implements UserDTOService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
     public List<UserDTO> showMan() {
         List<UserDTO> userDTOS = userDTODao.queryMan();
         return userDTOS;
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
     public List<UserDTO> showWoman() {
         List<UserDTO> userDTOS = userDTODao.queryWoman();
         return userDTOS;

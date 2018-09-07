@@ -59,4 +59,13 @@
                 })
             }
         })
+        $('#mini').linkbutton({
+            iconCls: 'icon-search'
+
+        });
+         $('#mini').bind('click', function(){
+            alert('easyui');
+        });
         </script>
+<a id="mini" href="#">easyui</a>
+

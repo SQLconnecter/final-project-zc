@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+
 public class AdminServiceImple implements AdminService{
     @Autowired
     private AdminDao adminDao;

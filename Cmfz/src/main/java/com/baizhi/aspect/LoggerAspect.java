@@ -1,13 +1,12 @@
 package com.baizhi.aspect;
 
-import com.baizhi.annotation.LogAnnotation;
+import com.baizhi.entity.Log;
+import com.baizhi.service.LogService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -16,12 +15,15 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.UUID;
+
 
 @Configuration
 @Aspect
 public class LoggerAspect {
-    private Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
-    @Pointcut(value="@annotation(LogAnnotation)")
+    @Autowired
+    private LogService logService;
+    @Pointcut(value = "@annotation(com.baizhi.aspect.LogAnnotation)")
     public void pointcut(){
 
     }
@@ -29,14 +31,14 @@ public class LoggerAspect {
     public Object log(ProceedingJoinPoint proceedingJoinPoint){
         ServletRequestAttributes servletRequestAttributes=(ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpSession session = servletRequestAttributes.getRequest().getSession();
-        String user =(String) session.getAttribute("user");
-
+        /*String user =(String) session.getAttribute("user");*/
+        String uid="1";
         Date date = new Date();
 
         MethodSignature signature = (MethodSignature)proceedingJoinPoint.getSignature();
         Method method = signature.getMethod();
         LogAnnotation annotation = method.getAnnotation(LogAnnotation.class);
-        String name = annotation.value();
+        String name = annotation.name();
         Object proceed =null;
         Boolean flag=false;
         try {
@@ -45,7 +47,15 @@ public class LoggerAspect {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-        System.out.println(flag);
+        //对日志的入库操作
+        String uuid = UUID.randomUUID().toString();
+        Log log = new Log();
+        log.setId(uuid);
+        log.setDate(date);
+        log.setUid(uid);
+        log.setOperate(name);
+        log.setResult(flag);
+        logService.put(log);
         return proceed;
     }
 }

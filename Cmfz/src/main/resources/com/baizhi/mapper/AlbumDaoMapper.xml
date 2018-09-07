@@ -34,8 +34,9 @@
         left join t_chapter c
         on c.albumId=a.id
     </sql>
-    <select id="queryAll" resultMap="selectall">
+    <select id="queryByPage" resultMap="selectall">
        <include refid="sql1"/>
+        limit #{start},#{limit}
     </select>
     <select id="queryByAlbumId" parameterType="int" resultMap="selectall">
         <include refid="sql1"/>
@@ -60,6 +61,12 @@
         #{chapter.id},#{chapter.title},#{chapter.duration},#{chapter.size},#{chapter.audioPath},#{id}
       )
     </insert>
+    <select id="count"  resultType="java.lang.Integer">
+      select count(*) from t_album
+    </select>
+    <select id="queryAll" resultMap="selectall">
+        <include refid="sql1"/>
+    </select>
 </mapper>
 
 

@@ -1,5 +1,6 @@
 package com.baizhi.serviceimple;
 
+import com.baizhi.aspect.LogAnnotation;
 import com.baizhi.dao.UserDao;
 import com.baizhi.entity.User;
 import com.baizhi.service.UserService;
@@ -38,6 +39,7 @@ public class UserServiceImple implements UserService {
     }
 
     @Override
+    @LogAnnotation(name = "更改用户状态")
     public User change(String id, boolean status) {
         userDao.updateStatus(id,status);
         User user = userDao.queryById(id);
@@ -45,6 +47,7 @@ public class UserServiceImple implements UserService {
     }
 
     @Override
+    @LogAnnotation( name = "批量导入数据")
     public void importDB(MultipartFile file) {
         List<User> users = XLSUtil.read(file);
         userDao.addList(users);
@@ -52,6 +55,7 @@ public class UserServiceImple implements UserService {
     }
 
     @Override
+    @LogAnnotation(name = "下载数据")
     public void downloadPage(int page, int rows, HttpServletResponse response) {
         List<User> users = this.showByPage(page, rows);
         //这里需要使用反射动态的拿到数据进行赋值
@@ -123,6 +127,7 @@ public class UserServiceImple implements UserService {
     }
 
     @Override
+    @LogAnnotation( name ="下载了自定义数据")
     public void downloadSelf(String titles, String params, HttpServletResponse response) {
         List<User> users = userDao.queryAll();
         //获取操作的对象
